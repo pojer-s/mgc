@@ -7,7 +7,7 @@ class MCG
 
     class Server < Sinatra::Base
 
-        get "/callback" do
+        post "/callback" do
             settings.mcg.generate
             "ok"
         end

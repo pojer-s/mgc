@@ -15,7 +15,7 @@ class MCG
             b = binding
             renderer = ERB.new(@template)
             IO.write(@output, renderer.result(b))
-            puts @reload_command
+            `#{@reload_command}`
         end
 
     end

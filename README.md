@@ -1,8 +1,6 @@
-# Mcg
+# MCG
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/mcg`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+MCG is a web daemon that automatically generate file from template and execute commands for web services deployed on Apache Mesos and Marathon.
 
 ## Installation
 
@@ -22,7 +20,56 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Create configuration file like this exemple:  
+
+```json
+{
+    "bind": "127.0.0.1",
+    "port": 8000,
+    "marathon": "http://localhost:8080",
+    "host": "http://127.0.0.1:8000/callback",
+    "actions": {
+        "nginx": {
+            "template": "/etc/mgc/apache-template.conf.erb",
+            "output": "/etc/apache2/sites-enabled/prepintra.etna-alternance.net",
+            "reload_command": "apachectl -t && apachectl graceful"
+        }
+    }
+}
+```
+
+and template like this exemple:  
+
+```
+<% @data.tasks.each do |name, conf| %>
+# Generated configuration for <%= name %>
+
+<VirtualHost *:80>
+	ServerAdmin admin@foo.fr
+	ServerName <%= name %>
+
+	ProxyRequests Off
+	ProxyPreserveHost On
+	SetEnv proxy-sendcl 1
+
+	<Proxy balancer://<%= name.gsub(/[\.-]/, '_') %>>
+		<% conf.each do |c| %>
+		BalancerMember <%= c[:host] %>:<%= c[:port] %>
+		<% end %>
+	</Proxy>
+	
+	ProxyPass / balancer://<%= name.gsub(/[\.-]/, '_') %>/
+	ProxyPassReverse / balancer://<%= name.gsub(/[\.-]/, '_') %>/
+
+</VirtualHost>
+<% end %>
+```
+
+and start the daemon like this:  
+
+```
+mcg -f conf.json
+```
 
 ## Development
 
@@ -32,7 +79,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/mcg/fork )
+1. Fork it ( https://github.com/pojer-s/mcg/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
