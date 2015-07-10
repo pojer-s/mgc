@@ -29,7 +29,7 @@ Create configuration file like this exemple:
     "marathon": "http://localhost:8080",
     "host": "http://127.0.0.1:8000/callback",
     "actions": {
-        "nginx": {
+        "apache": {
             "template": "/etc/mgc/apache-template.conf.erb",
             "output": "/etc/apache2/sites-enabled/prepintra.etna-alternance.net",
             "reload_command": "apachectl -t && apachectl graceful"
