@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require 'mcg'
+require 'optparse'
+require 'json'
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: example.rb [options]"
+
+  opts.on("-f FILE", "--config-file FILE", "Config file") do |v|
+    options[:config_file] = v
+  end
+end.parse!
+
+config = JSON.parse(IO.read(options[:config_file]))
+
+mcg = MCG.new(config)
+mcg.generate
+mcg.start
