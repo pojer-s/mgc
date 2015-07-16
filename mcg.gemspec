@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "mcg"
   spec.version       = MCG::VERSION
   spec.authors       = ["Steven Pojer"]
-  spec.email         = ["steven.pojer@etna-learning.fr"]
+  spec.email         = ["steven.pojer@gmail.com"]
 
   spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
   spec.description   = %q{TODO: Write a longer description or delete this line.}
