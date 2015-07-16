@@ -18,4 +18,6 @@ config = JSON.parse(IO.read(options[:config_file]))
 
 mcg = MCG.new(config)
 mcg.generate
+mcg.subscribe
 mcg.start
+mcg.unsubscribe
