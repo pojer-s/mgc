@@ -31,7 +31,7 @@ Create configuration file like this exemple:
     "actions": {
         "apache": {
             "template": "/etc/mgc/apache-template.conf.erb",
-            "output": "/etc/apache2/sites-enabled/prepintra.etna-alternance.net",
+            "output": "/etc/apache2/sites-enabled/all_site",
             "reload_command": "apachectl -t && apachectl graceful"
         }
     }
@@ -57,7 +57,7 @@ and template like this exemple:
 		BalancerMember <%= c[:host] %>:<%= c[:port] %>
 		<% end %>
 	</Proxy>
-	
+
 	ProxyPass / balancer://<%= name.gsub(/[\.-]/, '_') %>/
 	ProxyPassReverse / balancer://<%= name.gsub(/[\.-]/, '_') %>/
 
